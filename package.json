@@ -1,0 +1,28 @@
+{
+  "name": "node_tranning_project",
+  "version": "1.0.0",
+  "description": "node trainning",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/teepakorn08/node_tranning_project.git"
+  },
+  "author": "Teepakorn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/teepakorn08/node_tranning_project/issues"
+  },
+  "homepage": "https://gitlab.com/teepakorn08/node_tranning_project#readme",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "cores": "^0.8.5",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "mysql2": "^3.0.1",
+    "nodemon": "^2.0.20"
+  }
+}

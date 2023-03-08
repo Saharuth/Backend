@@ -1,0 +1,79 @@
+# This file is a template, and might need editing before it works on your project.
+# This is a sample GitLab CI/CD configuration file that should run without any modifications.
+# It demonstrates a basic 3 stage CI/CD pipeline. Instead of real tests or scripts,
+# it uses echo commands to simulate the pipeline execution.
+#
+# A pipeline is composed of independent jobs that run scripts, grouped into stages.
+# Stages run in sequential order, but jobs within stages run in parallel.
+#
+# For more information, see: https://docs.gitlab.com/ee/ci/yaml/index.html#stages
+#
+# You can copy and paste this template into a new `.gitlab-ci.yml` file.
+# You should not add this template to an existing `.gitlab-ci.yml` file by using the `include:` keyword.
+#
+# To contribute improvements to CI/CD templates, please follow the Development guide at:
+# https://docs.gitlab.com/ee/development/cicd/templates.html
+# This specific template is located at:
+# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
+
+
+test:
+  script: echo "Hello World"
+
+# stages:          # List of stages for jobs, and their order of execution
+#   - build
+#   - test
+#   - deploy
+
+# docker-build:       # This job runs in the build stage, which runs first.
+#   image: docker:latest
+#   stage: build
+#   services:
+#     - docker:dind
+#   before_script:
+#     - echo "login to https://registry.gitlab.com/v2/teepakornk08/node_trainning_project/manifests/latest"
+#     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "https://registry.gitlab.com/v2/teepakorn08/node_trainning_project/manifests/latest" 
+#   script:
+#     - |
+#        if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH"]]; then 
+#         tag=""
+#         echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = 'latest'"
+#        else
+#         tag=":$CI_COMMIT_REF_SLUG"
+#         echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
+#        fi
+#     - docker build --pull -t "$CI_REGISTRY_IMAGE${tag}" .
+#     - docker push "$CI_REGISTRY_IMAGE${tag}"
+
+# unit-test-job:   # This job runs in the test stage.
+#   stage: test    # It only starts when the job in the build stage completes successfully.
+#   script:
+#     - echo "Running unit tests... This will take about 10 seconds."
+#     - sleep 10
+#     - echo "Code coverage is 90%"
+
+# lint-test-job:   # This job also runs in the test stage.
+#   stage: test    # It can run at the same time as unit-test-job (in parallel).
+#   script:
+#     - echo "Linting code... This will take about 10 seconds."
+#     - sleep 10
+#     - echo "No lint issues found."
+
+# node_tranning_project:      # This job runs in the deploy stage.
+#   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+#   before_script:
+#     - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+#     - mkdir -p ~/.ssh
+#     - eval $(ssh-agent -s)
+#     - echo "$SERVER_SSH_KEY" > ./key.file
+#     - chmod 400 ./key.file
+#     - ssh-add ./key.file
+#     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+#   script:
+#     - ssh -tt ubuntu@172.31.25.38 "cd /home/ubuntu/test_deploy &&
+#       docker-compose pull test_deploy &&
+#       docker-compose up -d test_deploy &&
+#       docker image prune -f &&
+#       exit"
+  only:
+    - main
