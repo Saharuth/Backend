@@ -92,3 +92,8 @@ router.put(api_version + '/picture', (req,res) => {
         
     }
 })
+
+router.put(api_version + '/picture_array', (req,res) => {
+    let body = req.body;
+    console.log(body);
+})
