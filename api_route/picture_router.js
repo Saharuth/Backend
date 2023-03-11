@@ -95,5 +95,53 @@ router.put(api_version + '/picture', (req,res) => {
 
 router.put(api_version + '/picture_array', (req,res) => {
     let body = req.body;
-    console.log(body);
+    if (body !== null){
+        for (let x of body){
+            let node_number = x.node;
+            let picture = x.picture;
+            let resolution = res_cam[x.resolution];
+            let total_pkt = x.total_pkt;
+            let seq_pkt = x.seq_pkt;
+            let seq_picture = x.seq_picture;
+            let size = x.size;
+            // console.log(node_number)
+            // console.log(picture)
+            if (seq_pkt === total_pkt){
+                let query = `UPDATE picturedata SET base64='${picture}', number='start', name=${node_number},
+                    idpic=${seq_picture}, resolution='${resolution}' WHERE id=${seq_pkt};`
+                conn2.query(query, (error, results) => {
+                    let response = {
+                        Status: "OK",
+                        Description: "Create data into Database Success",
+                        Result: results
+                    }
+                    if (error){
+                        console.log(error)
+                    } else {
+                        //console.log(response)
+                        console.log("Complete");
+                        res.status(200).send();
+                    }
+                })
+            } else {
+                let query = `UPDATE picturedata SET base64='${picture}', number=${total_pkt}, name=${node_number},
+                    idpic=${seq_picture}, resolution='${resolution}' WHERE id=${seq_pkt};`
+                conn2.query(query, (error, results) => {
+                    let response = {
+                        Status: "OK",
+                        Description: "Create data into Database Success",
+                        Result: results
+                    }
+                    if (error){
+                        console.log(error)
+                    } else {
+                        //console.log(response)
+                        console.log("Complete");
+                        res.status(200).send();
+                    }
+                })
+            }
+        }
+    }
+    // console.log(body);
 })
